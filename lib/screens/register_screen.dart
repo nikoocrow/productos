@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:productos_app/providers/login_form_provider.dart';
 import 'package:productos_app/services/services.dart';
+
 import 'package:productos_app/ui/inputs_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
 import 'package:provider/provider.dart';
 
 
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class LoginScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox( height: 10),
-                    Text('Login', style: Theme.of(context).textTheme.headline4,),
+                    Text('Crear cuenta', style: Theme.of(context).textTheme.headline4,),
                     SizedBox( height: 30),
                      ChangeNotifierProvider(
                       create: ( _ ) => LoginFormProvider(),
@@ -34,9 +35,9 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50),
-              TextButton(
-                onPressed: () => Navigator.pushReplacementNamed(context,'register'),
-                child: Text('Crear una nueva cuenta', style: TextStyle(fontSize: 18, color: Colors.black87)),
+               TextButton(
+                onPressed: () => Navigator.pushReplacementNamed(context,'login'),
+                child: Text('¿Ya tienes una cuenta?', style: TextStyle(fontSize: 18, color: Colors.black87)),
                 style: ButtonStyle(
                   overlayColor: MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all(StadiumBorder())
@@ -140,13 +141,14 @@ class _LoginForm extends StatelessWidget {
                       loginFrom.isLoading = true;
                       
                      //TODO VALIDAR SI EL LOGIN ES CORRECTO
-                      final String? errorMesage = await authService.login(loginFrom.email, loginFrom.password);
+                      final String? errorMesage = await authService.createUser(loginFrom.email, loginFrom.password);
+
                       if(errorMesage == null){
                          Navigator.pushReplacementNamed(context, 'home');
                       }else{
                         //TODO Mostrar error en pantalla
                         //print(errorMesage);
-                        NotificationsServices.showSnackbar(errorMesage);
+                        NotificationsServices.showSnackbar('El email ya existe');
                         loginFrom.isLoading = false;
                       }
                   }

@@ -184,15 +184,16 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: url == null
-          ? Image(image: AssetImage('assets/no-image.png'),
-          fit: BoxFit.cover,
-          )
-          : FadeInImage(
+        child: FadeInImage(
           placeholder: AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage(url!),
-          fit: BoxFit.cover,
-        ),
+          imageErrorBuilder: (BuildContext context, Object obj, stackTrace){
+              return Image(image: AssetImage('assets/no-image.png'),
+              fit: BoxFit.cover
+              );
+    },
+        image: NetworkImage(url.toString()),
+        fit: BoxFit.cover
+)
       ),
     );
   }

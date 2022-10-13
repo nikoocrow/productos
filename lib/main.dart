@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:productos_app/screens/register_screen.dart';
 import 'package:productos_app/screens/screens.dart';
 import 'package:productos_app/services/services.dart';
 import 'package:productos_app/widgets/widgets.dart';
@@ -13,6 +14,8 @@ class AppState extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
+        ChangeNotifierProvider(create: ( _ ) =>AuthService()),
         ChangeNotifierProvider(create: ( _ ) =>ProductsService())
       ],
       child: MyApp(),
@@ -26,12 +29,18 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Productos App',
-      initialRoute: 'home',
+      initialRoute: 'login',
       routes: {
-        'login'       :( _ ) => LoginScreen(), 
+
+        'cheking'     :( _ ) => CheckAuthScreen(),
+
         'home'        :( _ ) => HomeScreen(),
-        'product':( _ ) => ProductScreen(),
+        'product'     :( _ ) => ProductScreen(),
+
+        'login'       :( _ ) => LoginScreen(), 
+        'register'    :( _ ) => RegisterScreen(),
       },
+        scaffoldMessengerKey: NotificationsServices.messengerKey,
         theme: ThemeData.light().copyWith(
         scaffoldBackgroundColor: Colors.grey[300],
         appBarTheme: AppBarTheme(
